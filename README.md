@@ -4,13 +4,20 @@
 
 A tic tac toe api that will allow for:
 
-Creating a game
-Reseting a game
-Loading a previous game
-Viewing game history - move by move
-Playing against an AI
+1. Creating a game
+2. Reseting a game
+3. Loading a previous game
+4. Viewing game history - move by move
+5. Playing against an AI
 
 ## Technical information
+
+##### Ubuntu Server 18.04 LTS (Operating System)
+##### Nginx (WebServer and Load Balancer)
+##### HHVM (JIT Compiler for the PHP Scripting Language)
+##### PHP (Scripting Language)
+##### Laravel 5.7 (Application Framework)
+##### MySQL
 
 ## Installation
 
