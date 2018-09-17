@@ -24,7 +24,9 @@ class UserGameService extends BaseService
 
     public function start($user, $mode, $type)
     {
-        return true;
+        $game = $this->game_service->start($mode, $type);
+
+        return $game;
     }
 
     public function move($user, $game_token)
