@@ -28,12 +28,23 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('', 'UserController@get');
 
         Route::prefix('game')->group(function () {
-        
+            Route::get('{game_id}', 'UserGameController@get');
+            Route::post('start', 'UserGameController@start');
+            Route::post('{game_id}/move', 'UserGameController@makeMove');
+            Route::put('{game_id}/reset', 'UserGameController@reset');
+            Route::post('{game_id}/load', 'UserGameController@load');
         });
+        Route::get('games', 'UserGameController@list');
+
     });
 
+    // TODO:: allow for system integration for game
     Route::prefix('game')->group(function () {
-
+        Route::post('start', 'GameController@start');
+        Route::get('{game_token}', 'GameController@get');
+        Route::post('{game_token}/move', 'GameController@makeMove');
+        Route::put('{game_token}/reset', 'GameController@reset');
+        Route::post('{game_token}/load', 'GameController@load');
     });
 
 });

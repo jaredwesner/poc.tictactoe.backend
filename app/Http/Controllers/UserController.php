@@ -20,7 +20,9 @@ class UserController extends Controller
     public function get()
     {
         $user = Auth::user();
+
         $user = $this->user_service->get($user);
+        
         return new StandardResponse($user);
     }
     
