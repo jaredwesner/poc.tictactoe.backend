@@ -4,11 +4,17 @@ namespace App\Http\Services;
 
 use App\Http\Services\BaseService;
 
+use App\Http\Services\GameService;
+use App\GameMode;
+use App\GameType;
+
 class UserGameService extends BaseService
 {
-    public function __construct()
-    {
+    private $game_service;
 
+    public function __construct(GameService $gameService)
+    {
+        $this->game_service = $gameService;
     }
 
     public function get($user, $game_token)
@@ -16,9 +22,9 @@ class UserGameService extends BaseService
 
     }
 
-    public function start($user, $game_token)
+    public function start($user, $mode, $type)
     {
-
+        return true;
     }
 
     public function move($user, $game_token)

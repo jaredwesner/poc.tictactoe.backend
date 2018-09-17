@@ -27,11 +27,25 @@ class UserGameController extends Controller
         return new StandardResponse($game);
     }
 
-    public function start(Request $request, $game_token)
+    public function start(Request $request)
     {
         $user = Auth::user();
 
-        $game = $this->user_game_service->get($user, $game_token);
+        $validation_rules = array(
+            'mode'=>'required|string|in:VersusCom,VersusHuman',
+            'type'=>'required|string|in:Regular,Easy,Medium,Hard',
+        );
+
+        $validator = Validator::make($request->input(), $validation_rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator->messages()->toArray(), 'Validation failure.');
+        }
+
+        $game = $this->user_game_service->start($user, 
+            $request->input('mode'), 
+            $request->input('type')
+        );
 
         return new StandardResponse($game);
     }
@@ -40,7 +54,17 @@ class UserGameController extends Controller
     {
         $user = Auth::user();
 
-        $game = $this->user_game_service->get($user, $game_token);
+        $validation_rules = array(
+            'move'=>'required|string',
+        );
+
+        $validator = Validator::make($request->input(), $validation_rules);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator->messages()->toArray(), 'Validation failure.');
+        }
+
+        $game = $this->user_game_service->move($user, $game_token);
 
         return new StandardResponse($game);
     }
@@ -49,7 +73,7 @@ class UserGameController extends Controller
     {
         $user = Auth::user();
 
-        $game = $this->user_game_service->get($user, $game_token);
+        $game = $this->user_game_service->reset($user, $game_token);
 
         return new StandardResponse($game);
     }
@@ -58,7 +82,7 @@ class UserGameController extends Controller
     {
         $user = Auth::user();
 
-        $game = $this->user_game_service->get($user, $game_token);
+        $game = $this->user_game_service->load($user, $game_token);
 
         return new StandardResponse($game);
     }
