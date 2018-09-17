@@ -26,14 +26,18 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::prefix('user')->group(function () {
         Route::get('', 'UserController@get');
-
         Route::prefix('game')->group(function () {
-        
+            Route::get('', 'UserGameController@getList');
+            Route::get('{game_token}', 'UserGameController@getGame');
         });
     });
 
     Route::prefix('game')->group(function () {
-
+        Route::post('start', 'GameController@start');
+        Route::get('{game_token}', 'GameController@get');
+        Route::post('{game_token}/move', 'GameController@makeMove');
+        Route::put('{game_token}/reset', 'GameController@reset');
+        Route::post('{game_token}/load', 'GameController@load');
     });
 
 });
