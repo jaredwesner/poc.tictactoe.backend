@@ -50,6 +50,12 @@ class UserGameService extends BaseService
 
         $user_game = self::newUserGame($user->id, $game->id);
 
+        $user_game->game_state = $this->game_service->comMoveDefault(
+                $user_game->game_state, $user_game->player_type
+        );
+        
+        $user_game->save();
+
         return $user_game;
     }
 
@@ -76,14 +82,8 @@ class UserGameService extends BaseService
         $user_game->game_id = $game_id; 
         $user_game->player_type = $player_type; 
         $user_game->game_status = GameStatus::IN_PROGRESS; 
-        $user_game->game_state = self::defaultGameState();
+        $user_game->game_state = $this->game_service->getDefaultGameState();
         $user_game->save();
         return $user_game;
-    }
-
-    // TODO:: break out into board class
-    private function defaultGameState()
-    {
-        return array([null, null, null], [null , null, null], [null , null, null]);
     }
 }

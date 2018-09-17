@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Http\Services\BaseService;
 use App\GameMode;
 use App\GameType;
+use App\PlayerType;
 use App\Game;
 
 class GameService extends BaseService
@@ -21,6 +22,21 @@ class GameService extends BaseService
         self::preformDefaultMove($mode);
 
         return $game;
+    }
+
+    public function getDefaultGameState()
+    {
+       return self::defaultGameState();
+    } 
+
+    // TODO:: Create smart first move
+    public function comMoveDefault($game_state, $player_type)
+    {
+        $col = rand(0,2);
+        $row = rand(0,2);
+
+        $game_state[$row][$col] = self::returnOppPlayerChar($player_type);
+        return $game_state;
     }
 
     private function preformDefaultMove($mode)
@@ -46,6 +62,24 @@ class GameService extends BaseService
         return (string) \Uuid::generate();
     }
 
+    private function returnOppPlayerChar($current_player_type)
+    {
+        if ($current_player_type == PlayerType::CROSS) 
+        {
+            return 'O';
+        }
+        return  'X';
+    }
+
+    private function returnPlayerChar($player_type)
+    {
+        if ($player_type == PlayerType::CROSS) 
+        {
+            return 'X';
+        }
+        return  'O';
+    }
+
     private function gameMode($mode)
     {
         switch ($mode) {
@@ -59,5 +93,11 @@ class GameService extends BaseService
                     # code...
                 break;
         }
+    }
+
+    // TODO:: break out into board class
+    private function defaultGameState()
+    {
+        return array([null, null, null], [null , null, null], [null , null, null]);
     }
 }
