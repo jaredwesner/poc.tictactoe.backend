@@ -11,17 +11,27 @@ class GameService extends BaseService
 
     }
 
-    public function get()
+    public function get($user, $game_token)
     {
 
     }
 
-    public function create()
+    public function start($user, $game_token)
     {
 
     }
 
-    public function update()
+    public function move($user, $game_token)
+    {
+
+    }
+
+    public function reset($user, $game_token)
+    {
+
+    }
+
+    public function load($user, $game_token)
     {
 
     }
