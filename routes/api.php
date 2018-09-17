@@ -26,14 +26,16 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::prefix('user')->group(function () {
         Route::get('', 'UserController@get');
+
         Route::prefix('game')->group(function () {
-            Route::get('', 'UserGameController@getList');
+            Route::get('{game_id}', 'UserGameController@get');
             Route::post('start', 'UserGameController@start');
-            Route::get('{game_token}', 'UserGameController@get');
-            Route::post('{game_token}/move', 'UserGameController@makeMove');
-            Route::put('{game_token}/reset', 'UserGameController@reset');
-            Route::post('{game_token}/load', 'UserGameController@load');
+            Route::post('{game_id}/move', 'UserGameController@makeMove');
+            Route::put('{game_id}/reset', 'UserGameController@reset');
+            Route::post('{game_id}/load', 'UserGameController@load');
         });
+        Route::get('games', 'UserGameController@list');
+
     });
 
     // TODO:: allow for system integration for game

@@ -18,11 +18,20 @@ class UserGameController extends Controller
         $this->user_game_service = $userGameService;
     }
 
-    public function get($game_token)
+    public function list()
     {
         $user = Auth::user();
 
-        $game = $this->user_game_service->get($user, $game_token);
+        $game = $this->user_game_service->list($user);
+
+        return new StandardResponse($game);
+    }
+
+    public function get($game_id)
+    {
+        $user = Auth::user();
+
+        $game = $this->user_game_service->get($user, $game_id);
 
         return new StandardResponse($game);
     }
@@ -50,7 +59,7 @@ class UserGameController extends Controller
         return new StandardResponse($game);
     }
 
-    public function move(Request $request, $game_token)
+    public function move(Request $request, $game_id)
     {
         $user = Auth::user();
 
@@ -64,7 +73,7 @@ class UserGameController extends Controller
             throw new ValidationException($validator->messages()->toArray(), 'Validation failure.');
         }
 
-        $game = $this->user_game_service->move($user, $game_token);
+        $game = $this->user_game_service->move($user, $game_id);
 
         return new StandardResponse($game);
     }
@@ -78,7 +87,7 @@ class UserGameController extends Controller
         return new StandardResponse($game);
     }
 
-    public function load($game_token)
+    public function load($game_id)
     {
         $user = Auth::user();
 

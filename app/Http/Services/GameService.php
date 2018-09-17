@@ -18,14 +18,20 @@ class GameService extends BaseService
     {
         $game = self::createNewGame($mode, $type);
 
-        // check for default move?
+        self::preformDefaultMove($mode);
 
         return $game;
     }
 
-    // can use Game::create([]);
+    private function preformDefaultMove($mode)
+    {
+        if($mode != GameMode::VERSUS_COM) { return; }
+        // TODO:: make move
+    }
+
     private function createNewGame($mode, $type)
     {
+        // can use Game::create([]);
         $game = new Game();
         $game->external_id = self::createUUID();
         $game->board_size = 3;

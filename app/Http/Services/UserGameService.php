@@ -3,10 +3,13 @@
 namespace App\Http\Services;
 
 use App\Http\Services\BaseService;
-
+use App\Exceptions\ValidationException;
 use App\Http\Services\GameService;
 use App\GameMode;
 use App\GameType;
+use App\GameStatus;
+use App\PlayerType;
+use App\UserGame;
 
 class UserGameService extends BaseService
 {
@@ -17,30 +20,70 @@ class UserGameService extends BaseService
         $this->game_service = $gameService;
     }
 
-    public function get($user, $game_token)
+    public function list($user)
     {
+        $user_games = UserGame::where('user_id', $user->id)->get();
 
+        if($user_games->isEmpty())
+        {
+            throw new ValidationException(null, 'No games found', 404);
+        }
+
+        return $user_games;
+    }
+
+    public function get($user, $game_id)
+    {        
+        $user_game = UserGame::where('game_id', $game_id)->where('user_id', $user->id)->first();
+
+        if(!$user_game)
+        {
+            throw new ValidationException(null, 'No game found with that id', 404);
+        }
+
+        return $user_game;
     }
 
     public function start($user, $mode, $type)
     {
         $game = $this->game_service->start($mode, $type);
 
-        return $game;
+        $user_game = self::newUserGame($user->id, $game->id);
+
+        return $user_game;
     }
 
-    public function move($user, $game_token)
+    public function move($user, $game_id)
     {
 
     }
 
-    public function reset($user, $game_token)
+    public function reset($user, $game_id)
     {
 
     }
 
-    public function load($user, $game_token)
+    public function load($user, $game_id)
     {
 
+    }
+
+    private function newUserGame($user_id, $game_id, $player_type = PlayerType::CROSS, $vs_user_id = null)
+    {
+        $user_game = new UserGame();
+        $user_game->user_id = $user_id; 
+        $user_game->vs_user_id = $vs_user_id; 
+        $user_game->game_id = $game_id; 
+        $user_game->player_type = $player_type; 
+        $user_game->game_status = GameStatus::IN_PROGRESS; 
+        $user_game->game_state = self::defaultGameState();
+        $user_game->save();
+        return $user_game;
+    }
+
+    // TODO:: break out into board class
+    private function defaultGameState()
+    {
+        return array([null, null, null], [null , null, null], [null , null, null]);
     }
 }
