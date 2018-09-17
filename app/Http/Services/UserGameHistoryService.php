@@ -4,7 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Services\BaseService;
 
-class GameHistoryService extends BaseService
+class UserGameHistoryService extends BaseService
 {
     public function __construct()
     {
@@ -12,16 +12,6 @@ class GameHistoryService extends BaseService
     }
 
     public function get()
-    {
-
-    }
-
-    public function create()
-    {
-
-    }
-
-    public function update()
     {
 
     }
