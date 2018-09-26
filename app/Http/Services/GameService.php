@@ -84,7 +84,7 @@ class GameService extends BaseService
 
         if($game_won != null)
         {
-            $user_game->status = GameStatus::WON;
+            $user_game->game_status = GameStatus::WON;
             $user_game->save();
             return $user_game;
         }
@@ -92,7 +92,7 @@ class GameService extends BaseService
         // game over
         if($user_game->game->moves == 0)
         {
-            $user_game->status = GameStatus::TIED;
+            $user_game->game_status = GameStatus::TIED;
             $user_game->save();
             return $user_game;
         }

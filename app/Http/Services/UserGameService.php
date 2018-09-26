@@ -78,7 +78,7 @@ class UserGameService extends BaseService
 
     public function reset($user, $game_id)
     {
-
+        
     }
 
     public function load($user, $game_id)
