@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::prefix('game')->group(function () {
             Route::get('{game_id}', 'UserGameController@get');
             Route::post('start', 'UserGameController@start');
-            Route::post('{game_id}/move', 'UserGameController@makeMove');
+            Route::post('{game_id}/move', 'UserGameController@move');
             Route::put('{game_id}/reset', 'UserGameController@reset');
             Route::post('{game_id}/load', 'UserGameController@load');
         });
