@@ -112,7 +112,8 @@ type:Regular,Easy,Medium,Hard
 
 ```sh
 curl -X POST "http://poc.tictactoe.backend/api/user/game/start" \
-    -H "Authorization: Bearer {token}" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json; charset=utf-8" \
     --data-raw "$body"
 ```
 
@@ -124,9 +125,9 @@ curl -X POST "http://poc.tictactoe.backend/api/user/game/start" \
 {
   "type": "string",
   "enum": [
-    "Bearer {token}"
+    "Bearer {access_token}"
   ],
-  "default": "Bearer {token}"
+  "default": "Bearer {access_token}"
 }
 ```
 - **Content-Type** should respect the following schema:
@@ -152,7 +153,7 @@ curl -X POST "http://poc.tictactoe.backend/api/user/game/start" \
 }
 ```
 
-### **GET** - /api/user/game/9
+### **GET** - /api/user/game/52
 
 #### Description
 get a user game by token
@@ -160,8 +161,8 @@ get a user game by token
 #### CURL
 
 ```sh
-curl -X GET "http://poc.tictactoe.backend/api/user/game/9" \
-    -H "Authorization: Bearer {token}" \
+curl -X GET "http://poc.tictactoe.backend/api/user/game/52" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/x-www-form-urlencoded" \
     --data-raw "$body"
 ```
@@ -174,9 +175,9 @@ curl -X GET "http://poc.tictactoe.backend/api/user/game/9" \
 {
   "type": "string",
   "enum": [
-    "Bearer {token}"
+    "Bearer {access_token}"
   ],
-  "default": "Bearer {token}"
+  "default": "Bearer {access_token}"
 }
 ```
 - **Content-Type** should respect the following schema:
@@ -202,16 +203,17 @@ curl -X GET "http://poc.tictactoe.backend/api/user/game/9" \
 }
 ```
 
-### **GET** - /api/user/games
+### **POST** - /api/user/game/52/move
 
 #### Description
-List user games
+Make a move 
 
 #### CURL
 
 ```sh
-curl -X GET "http://poc.tictactoe.backend/api/user/games" \
-    -H "Authorization: Bearer {token}" \
+curl -X POST "http://poc.tictactoe.backend/api/user/game/52/move" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/json" \
     --data-raw "$body"
 ```
 
@@ -223,9 +225,59 @@ curl -X GET "http://poc.tictactoe.backend/api/user/games" \
 {
   "type": "string",
   "enum": [
-    "Bearer {token}"
+    "Bearer {access_token}"
   ],
-  "default": "Bearer {token}"
+  "default": "Bearer {access_token}"
+}
+```
+- **Content-Type** should respect the following schema:
+
+```
+{
+  "type": "string",
+  "enum": [
+    "application/json"
+  ],
+  "default": "application/json"
+}
+```
+
+#### Body Parameters
+
+- **body** should respect the following schema:
+
+```
+{
+  "type": "string",
+  "default": "{\"row\":0,\"col\":0}"
+}
+```
+
+### **GET** - /api/user/games
+
+#### Description
+List user games
+
+#### CURL
+
+```sh
+curl -X GET "http://poc.tictactoe.backend/api/user/games" \
+    -H "Authorization: Bearer {access_token}" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    --data-raw "$body"
+```
+
+#### Header Parameters
+
+- **Authorization** should respect the following schema:
+
+```
+{
+  "type": "string",
+  "enum": [
+    "Bearer {access_token}"
+  ],
+  "default": "Bearer {access_token}"
 }
 ```
 - **Content-Type** should respect the following schema:
@@ -260,7 +312,7 @@ return a user logged in
 
 ```sh
 curl -X GET "http://poc.tictactoe.backend/api/user" \
-    -H "Authorization: Bearer {token}" \
+    -H "Authorization: Bearer {access_token}" \
     -H "Content-Type: application/x-www-form-urlencoded" \
     --data-raw "name"="jared" \
     --data-raw "email"="jdwesner2@gmail.com" \
@@ -275,9 +327,9 @@ curl -X GET "http://poc.tictactoe.backend/api/user" \
 {
   "type": "string",
   "enum": [
-    "Bearer {token}"
+    "Bearer {access_token}"
   ],
-  "default": "Bearer {token}"
+  "default": "Bearer {access_token}"
 }
 ```
 - **Content-Type** should respect the following schema:
