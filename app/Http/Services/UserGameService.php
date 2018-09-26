@@ -41,6 +41,8 @@ class UserGameService extends BaseService
             throw new ValidationException(null, 'No game found with that id', 404);
         }
 
+        $user_game->load('game');
+
         return $user_game;
     }
 
@@ -51,7 +53,8 @@ class UserGameService extends BaseService
         $user_game = self::newUserGame($user->id, $game->id);
 
         $user_game->game_state = $this->game_service->comMoveDefault(
-                $user_game->game_state, $user_game->player_type
+            $user_game->game_state, 
+            $user_game->player_type
         );
         
         $user_game->save();
@@ -59,9 +62,13 @@ class UserGameService extends BaseService
         return $user_game;
     }
 
-    public function move($user, $game_id)
-    {
+    public function move($user, $game_id, $move)
+    {        
+        $game = self::get($user, $game_id);
 
+        $game = $this->game_service->makeMove($game, $move);
+
+        return $game;
     }
 
     public function reset($user, $game_id)

@@ -64,7 +64,8 @@ class UserGameController extends Controller
         $user = Auth::user();
 
         $validation_rules = array(
-            'move'=>'required|string',
+            'row'=>'required|integer|min:0|max:2',
+            'col'=>'required|integer|min:0|max:2',
         );
 
         $validator = Validator::make($request->input(), $validation_rules);
@@ -73,7 +74,11 @@ class UserGameController extends Controller
             throw new ValidationException($validator->messages()->toArray(), 'Validation failure.');
         }
 
-        $game = $this->user_game_service->move($user, $game_id);
+        $game = $this->user_game_service->move(
+            $user, 
+            $game_id,
+            [$request->input('row'),  $request->input('col')]
+        );
 
         return new StandardResponse($game);
     }

@@ -12,10 +12,15 @@ class UserGame extends Model
     ];
 
     protected $hidden = [
-        'id', 'created_at', 'updated_at'
+        'id', 'created_at', 'updated_at', 'user_id', 'vs_user_id', 'status_updated_at'
     ];
 
     protected $casts = [
         'game_state' => 'json'
     ];
+
+    public function game()
+    {
+        return $this->hasOne('App\Game', 'id', 'game_id');
+    }
 }
