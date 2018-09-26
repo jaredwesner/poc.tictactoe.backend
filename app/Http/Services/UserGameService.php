@@ -64,11 +64,16 @@ class UserGameService extends BaseService
 
     public function move($user, $game_id, $move)
     {        
-        $game = self::get($user, $game_id);
+        $user_game = self::get($user, $game_id);
 
-        $game = $this->game_service->makeMove($game, $move);
+        if($user_game->game_status != GameStatus::IN_PROGRESS)
+        {
+            throw new ValidationException(null, 'Game Status: '.$user_game->game_status, 422);
+        }
 
-        return $game;
+        $user_game = $this->game_service->makeMove($user_game, $move);
+
+        return $user_game;
     }
 
     public function reset($user, $game_id)
